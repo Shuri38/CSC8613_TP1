@@ -94,6 +94,9 @@ Question 5.b :
 
 Après exécution du flow pour le 29 février 2024, la table subscriptions_profile_snapshots contient 7043 lignes correspondant à l’état des utilisateurs à cette date. Le snapshot du 31 janvier 2024 est vide car le flow n’a pas été exécuté pour ce mois. Chaque snapshot reflète donc uniquement les données du mois pour lequel le flow a été lancé, et le nombre de lignes peut varier selon les utilisateurs présents.
 
+On peut relancer les deux execs afin de voir les deux à 7043.
+
+![alt text](images_tp2/image11.png)
 
 
 
