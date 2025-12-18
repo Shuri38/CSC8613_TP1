@@ -31,7 +31,7 @@ docker compose exec prefect python build_training_dataset.py
 (base) robin.slesinski@macbookair projet-docker % ls data/processed/
 training_df.csv
 
-![alt text](image-1.png)
+![alt text](images_tp3/image-1.png)
 
 
 Question 4.d:
@@ -47,7 +47,7 @@ Si on interrogez un user_id pour lequel aucune feature n’a été matérialisé
 
 Question 4.j:
 
-![alt text](image-2.png)
+![alt text](images_tp3/image-2.png)
 
 # Réflexion
 
