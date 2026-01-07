@@ -23,7 +23,7 @@ Question 3.d :
 [COMPARE] candidate_auc < prod_auc + delta (delta=0.01)
 [SUMMARY] as_of=2024-02-29 cand_v=3 prod_v=1 -> skipped
 
-![alt text](images_tp6/image3.png)
+![alt text](images_tp6/image4.png)
 
 Le paramètre delta permet d’éviter la promotion d’un nouveau modèle pour des gains de performance marginaux pouvant être dus au bruit statistique ou à la variabilité du jeu de validation. Il garantit que seules des améliorations significatives justifient un changement en Production.
 
@@ -32,10 +32,10 @@ Le paramètre delta permet d’éviter la promotion d’un nouveau modèle pour 
 
 Question 4.c:
 
-![alt text](images_tp6/image4.png)
-
-
 ![alt text](images_tp6/image5.png)
+
+
+![alt text](images_tp6/image6.png)
 
 Même si le drift global n’atteint pas le seuil (0.3), nous avons forcé l’exécution du flow avec threshold=0.0 pour démonstration. La colonne driftée représente 6,25 % des colonnes du dataset (1 sur 16).
 
@@ -72,3 +72,28 @@ user_id,signup_date,user_gender,user_is_senior,has_family,has_dependents
 (base) robin.slesinski@macbookair projet-docker % 
 
 L’API doit être redémarrée après la promotion d’un nouveau modèle car le modèle est chargé en mémoire uniquement au démarrage. Sans redémarrage, l’API continuerait à utiliser l’ancienne version pour les prédictions.
+
+
+# Exercice 6 : CI GitHub Actions (smoke + unit) avec Docker Compose
+
+Question 6.c : 
+
+![alt text](images_tp6/image7.png)
+
+Docker Compose est démarré dans la CI afin de lancer l’ensemble des services dépendants (API, PostgreSQL, Feast, MLflow) pour effectuer des tests d’intégration multi-services, vérifiant ainsi que tous les composants communiquent correctement.
+
+# Exercice 7 : Synthèse finale : boucle complète drift → retrain → promotion → serving
+
+Question 7.a : 
+
+Le drift est mesuré avec Evidently en comparant les distributions des colonnes du dataset de production avec celles de référence. Le drift_share indique la proportion de colonnes ayant changé. Le seuil de 0,02 sert à déclencher un retrain de démonstration si le drift est trop faible.
+
+Le flow train_and_compare_flow entraîne un modèle candidat et compare sa val_auc avec celle du modèle en production. Si le candidat est meilleur, il est promu, sinon il est ignoré.
+
+Prefect s’occupe de lancer et gérer toutes ces étapes automatiquement, tandis que GitHub Actions sert à vérifier que le code et les services fonctionnent correctement avec des tests unitaires et des tests d’intégration.
+
+Question 7.b :
+
+La CI ne doit pas entraîner le modèle complet car c’est long et non stable. Il manque des tests comme des tests de bout en bout ou de robustesse aux données. Dans la vraie vie, il faut souvent un contrôle humain pour valider le modèle avant de le mettre en production.
+
+
